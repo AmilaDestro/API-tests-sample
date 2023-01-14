@@ -46,6 +46,9 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
         assertTrue(relevantTitle.isPresent() || relevantDescription.isPresent(),
                 String.format("No items with title or description containing [%s] were found", keyword));
     }
+    /*
+    Test Case 2
+     */
     @Test(dataProviderClass = SearchPageTestData.class, dataProvider = "singleChars")
     public void testSearchResultsForOneChar(final String singleChar) {
         when()
@@ -56,6 +59,9 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
                                 .body("data", empty());
     }
 
+    /*
+    Case 3
+     */
     @Test(dataProvider = "emptyStrings", dataProviderClass = SearchPageTestData.class)
     public void testSearchResultsForEmptyString(final String emptyString) {
         when()
@@ -63,6 +69,10 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
                         .then()
                                 .statusCode(404);
     }
+
+    /*
+    Case 4
+     */
     @Test(dataProvider = "invalidStrings", dataProviderClass = SearchPageTestData.class)
     public void testSearchResultsForInvalidString(final String keyword) {
         when()
@@ -73,6 +83,9 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
                                 .body("data", empty());
     }
 
+    /*
+    Case 5
+     */
     @Test
     public void testSearchResultsForInvalidUrl() {
         when()
