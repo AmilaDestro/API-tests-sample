@@ -1,6 +1,7 @@
 package soloviova.liudmyla.qa.tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Link;
 import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -26,17 +27,18 @@ import static org.testng.Assert.assertTrue;
 public class VodafoneSearchPageApiTests extends SearchPageTestBase {
 
     @Test(dataProvider = "validSearchKeywords", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 1. Send GET request using a valid string as a keyword, " +
-            "e.g. https://www.vodafone.ua/api/search/{keyword}")
+    @Description("Case 1. Send GET request to valid URL with relevant keyword")
+    @Link("https://www.vodafone.ua/api/search/{keyword}")
     public void testSearchResultsForValidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
+
         val response = when()
-                            .get(buildUrlWithSearchKeyword(keyword))
-                                    .then()
-                                            .statusCode(200)
-                                            .contentType(ContentType.JSON)
-                                            .body("data", notNullValue())
-                                            .body("data", hasItems())
+                             .get(buildUrlWithSearchKeyword(keyword))
+                       .then()
+                             .statusCode(200)
+                             .contentType(ContentType.JSON)
+                             .body("data", notNullValue())
+                             .body("data", hasItems())
                 .extract().response();
 
         final List<String> titles = response.path("data.title");
@@ -53,47 +55,51 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
     }
 
     @Test(dataProviderClass = SearchPageTestData.class, dataProvider = "singleChars")
-    @Description("Case 2. Send GET request using a single character instead of a keyword, " +
-            "e.g. 'https://www.vodafone.ua/api/search/{s}'")
+    @Description("Case 2. Send GET request to valid URL with a single character")
+    @Link("https://www.vodafone.ua/api/search/{s}")
     public void testSearchResultsForOneChar(final String singleChar) {
         log.info("Keyword for search is [{}]", singleChar);
+
         when()
-                .get(buildUrlWithSearchKeyword(singleChar))
-                        .then()
-                                .statusCode(200)
-                                .contentType(ContentType.JSON)
-                                .body("data", empty());
+              .get(buildUrlWithSearchKeyword(singleChar))
+        .then()
+              .statusCode(200)
+              .contentType(ContentType.JSON)
+              .body("data", empty());
     }
 
     @Test(dataProvider = "emptyStrings", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 3. Send GET request using empty string instead of a keyword, " +
-            "e.g. 'https://www.vodafone.ua/api/search/{}'")
+    @Description("Case 3. Send GET request to valid URL with empty string as a keyword")
+    @Link("https://www.vodafone.ua/api/search/{}")
     public void testSearchResultsForEmptyString(final String emptyString) {
         log.info("Keyword for search is [{}]", emptyString);
+
         when()
-                .get(buildUrlWithSearchKeyword(emptyString))
-                        .then()
-                                .statusCode(404);
+              .get(buildUrlWithSearchKeyword(emptyString))
+        .then()
+              .statusCode(404);
     }
 
     @Test(dataProvider = "invalidStrings", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 4. Send GET request using random senseless keyword, " +
-            "e.g. 'https://www.vodafone.ua/api/search/{abracadabra}'")
+    @Description("Case 4. Send GET request to valid URL with a keyword consisting of random characters")
+    @Link("https://www.vodafone.ua/api/search/{@bracadabra}")
     public void testSearchResultsForInvalidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
+
         when()
-                .get(buildUrlWithSearchKeyword(keyword))
-                        .then()
-                                .statusCode(200)
-                                .contentType(ContentType.JSON)
-                                .body("data", empty());
+              .get(buildUrlWithSearchKeyword(keyword))
+        .then()
+              .statusCode(200)
+              .contentType(ContentType.JSON)
+              .body("data", empty());
     }
     @Test
-    @Description("Case 5. Send GET request to invalid search URL: 'https://www.vodafone.ua/api/searchh'")
+    @Description("Case 5. Send GET request to invalid URL")
+    @Link("https://www.vodafone.ua/api/searchh")
     public void testSearchResultsForInvalidUrl() {
         when()
-                .get("https://www.vodafone.ua/api/searchh")
-                        .then()
-                                .statusCode(404);
+              .get("https://www.vodafone.ua/api/searchh")
+        .then()
+              .statusCode(404);
     }
 }
