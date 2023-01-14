@@ -50,6 +50,7 @@ AND an empty list of data is returned
 
 
 **Case 5.**
+
 GIVEN an invalid search page URL 'https://www.vodafone.ua/api/searchh'
 
 WHEN a user sends GET request using the given URL
