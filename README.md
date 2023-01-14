@@ -49,7 +49,7 @@ THEN the request is processed with status code 404
 GIVEN a valid page URL 'https://www.vodafone.ua/api/search/' and string with random characters
 
 WHEN GET request is sent to the given URL:
-https://www.vodafone.ua/api/search/{qwerty123}
+https://www.vodafone.ua/api/search/{@bracadabra}
 
 THEN the request is processed with status code 200
 
