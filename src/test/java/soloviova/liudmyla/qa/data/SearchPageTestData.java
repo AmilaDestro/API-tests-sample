@@ -51,4 +51,14 @@ public class SearchPageTestData {
                 {"@#$%^&*()"}
         };
     }
+
+    @DataProvider
+    public static Object[][] invalidUrls() {
+        return new Object[][] {
+                {"https://www.vodafone.ua/api/searchh"},
+                {"https://www.vodafone.ua/api/searc"},
+                {"https://www.vodafone.ua/api/ search"},
+                {"https://www.vodafone.ua/api//search"}
+        };
+    }
 }

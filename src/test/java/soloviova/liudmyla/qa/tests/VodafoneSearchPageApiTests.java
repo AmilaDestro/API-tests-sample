@@ -27,7 +27,7 @@ import static org.testng.Assert.assertTrue;
 public class VodafoneSearchPageApiTests extends SearchPageTestBase {
 
     @Test(dataProvider = "validSearchKeywords", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 1. Send GET request to valid URL with relevant keyword")
+    @Description("Case 1. Send GET request to valid URL with valid keyword related to existing products or services.")
     @Link("https://www.vodafone.ua/api/search/{keyword}")
     public void testSearchResultsForValidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
@@ -55,7 +55,7 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
     }
 
     @Test(dataProviderClass = SearchPageTestData.class, dataProvider = "singleChars")
-    @Description("Case 2. Send GET request to valid URL with a single character")
+    @Description("Case 2. Send GET request to valid URL with a single character {s}.")
     @Link("https://www.vodafone.ua/api/search/{s}")
     public void testSearchResultsForOneChar(final String singleChar) {
         log.info("Keyword for search is [{}]", singleChar);
@@ -69,7 +69,7 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
     }
 
     @Test(dataProvider = "emptyStrings", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 3. Send GET request to valid URL with empty string as a keyword")
+    @Description("Case 3. Send GET request to valid URL with empty string as a keyword.")
     @Link("https://www.vodafone.ua/api/search/{}")
     public void testSearchResultsForEmptyString(final String emptyString) {
         log.info("Keyword for search is [{}]", emptyString);
@@ -81,8 +81,8 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
     }
 
     @Test(dataProvider = "invalidStrings", dataProviderClass = SearchPageTestData.class)
-    @Description("Case 4. Send GET request to valid URL with a keyword consisting of random characters")
-    @Link("https://www.vodafone.ua/api/search/{@bracadabra}")
+    @Description("Case 4. Send GET request to valid URL with a keyword consisting of random set of characters.")
+    @Link("https://www.vodafone.ua/api/search/{random_set_of_chars}")
     public void testSearchResultsForInvalidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
 
@@ -93,12 +93,12 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
               .contentType(ContentType.JSON)
               .body("data", empty());
     }
-    @Test
-    @Description("Case 5. Send GET request to invalid URL")
-    @Link("https://www.vodafone.ua/api/searchh")
-    public void testSearchResultsForInvalidUrl() {
+    @Test(dataProvider = "invalidUrls", dataProviderClass = SearchPageTestData.class)
+    @Description("Case 5. Send GET request to invalid URL.")
+    @Link("https://www.vodafone.ua/api/{invalid_path}")
+    public void testSearchResultsForInvalidUrl(final String invalidUrl) {
         when()
-              .get("https://www.vodafone.ua/api/searchh")
+              .get(invalidUrl)
         .then()
               .statusCode(404);
     }
