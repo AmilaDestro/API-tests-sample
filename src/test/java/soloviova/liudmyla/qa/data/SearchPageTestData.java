@@ -14,8 +14,10 @@ public class SearchPageTestData {
         return new Object[][] {
                 {"Vodafone TV"},
                 {"Роумінг"},
-                {"test"},
-                {"LTE"}
+                {"test-"},
+                {"LTE"},
+                {"4G"},
+                {"1800"}
         };
     }
 
@@ -34,7 +36,9 @@ public class SearchPageTestData {
                 {"t"},
                 {"щ"},
                 {"Ч"},
-                {"Q"}
+                {"Q"},
+                {"$"},
+                {"1"}
         };
     }
 
@@ -42,7 +46,9 @@ public class SearchPageTestData {
     public static Object[][] invalidStrings() {
         return new Object[][] {
                 {"hfbwjbgjjwg4uy"},
-                {"аьдйузщлпєц"}
+                {"аьдйузщлпєц"},
+                {"@bracadabra123#~"},
+                {"@#$%^&*()"}
         };
     }
 }

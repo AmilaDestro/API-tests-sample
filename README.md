@@ -1,58 +1,65 @@
 This is a project with API tests sample using RestAssured and TestNG.
 
-Test cases:
+**Assumptions:** 
+- Search results are present for words with length 3 and more symbols.
+- Both Latin and Cyrillic symbols are supported as well as digits and special symbols.
+- When less than 3 symbols are entered an empty array is returned.
+- When empty string is used as a keyword the request is processed with 404 status code.
+- When request is sent to an invalid endpoint 404 status code is returned too.
 
-**Case 1.**
+Implemented test cases:
 
-GIVEN a valid search page URL 'https://www.vodafone.ua/api/search/'
+**Case 1. Send GET request to valid URL with relevant keyword.**
 
-WHEN a user sends GET request to the specified URL by adding a relevant String keyword (Latin or Cyrillic) to the end: 
+GIVEN a valid page URL 'https://www.vodafone.ua/api/search/' and relevant keyword
+
+WHEN GET request is sent to: 
 https://www.vodafone.ua/api/search/{keyword}
 
-THEN the request is performed successfully with status code 200
+THEN the request is processed with status code 200
 
 AND content type is JSON
 
-AND the response body contains the specified keyword in 'title' or 'short_description' in any data item
+AND the response body contains the specified {keyword} in 'title' or 'short_description' in any data item
 
 
-**Case 2.**
+**Case 2. Send GET request to valid URL with a single character**
 
-GIVEN a valid search page URL 'https://www.vodafone.ua/api/search/'
+GIVEN a valid page URL 'https://www.vodafone.ua/api/search/' and a single character
 
-WHEN a user sends GET request to the specified URL by adding a single character (Latin or Cyrillic) to the end:
-https://www.vodafone.ua/api/search/{single_char}
+WHEN GET request is sent to:
+https://www.vodafone.ua/api/search/{s}
 
-THEN the request is performed successfully with status code 200
+THEN the request is processed with status code 200
 
-AND an empty list of data items is returned
+AND an empty array is returned
 
 
-**Case 3.**
+**Case 3. Send GET request to valid URL with empty string as a keyword**
 
-GIVEN a valid search page URL 'https://www.vodafone.ua/api/search/'
+GIVEN a valid page URL 'https://www.vodafone.ua/api/search/'
 
-WHEN a user send GET request to the specified URL without a keyword or with any number of spaces instead:
+WHEN GET request is sent to the specified URL with an empty string as a keyword:
 https://www.vodafone.ua/api/search/{}
 
-THEN the request is performed unsuccessfully with status code 404
+THEN the request is processed with status code 404
 
-**Case 4.**
+**Case 4. Send GET request to valid URL with a keyword consisting of random characters**
 
-GIVEN a valid search page URL 'https://www.vodafone.ua/api/search/'
+GIVEN a valid page URL 'https://www.vodafone.ua/api/search/' and string with random characters
 
-WHEN a user sends GET request to the specified URL by adding a senseless String keyword with random characters:
-https://www.vodafone.ua/api/search/{abracadabra}
+WHEN GET request is sent to the given URL:
+https://www.vodafone.ua/api/search/{qwerty123}
 
-THEN the request is performed successfully with status code 200
+THEN the request is processed with status code 200
 
-AND an empty list of data is returned
+AND an empty array is returned
 
 
-**Case 5.**
+**Case 5. Send GET request to invalid URL**
 
-GIVEN an invalid search page URL 'https://www.vodafone.ua/api/searchh'
+GIVEN an invalid page URL 'https://www.vodafone.ua/api/searchh'
 
-WHEN a user sends GET request using the given URL
+WHEN GET request is sent the given URL
 
-THEN the request is performed unsuccessfully with status code 404
+THEN the request is processed with status code 404
