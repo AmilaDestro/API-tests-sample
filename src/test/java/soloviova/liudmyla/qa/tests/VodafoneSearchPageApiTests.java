@@ -19,6 +19,8 @@ import static org.testng.Assert.assertTrue;
 
 /**
  * This class contains API tests for 'vodafone.ua/search' page
+ *
+ * @author Liudmyla Soloviova
  */
 @Slf4j
 public class VodafoneSearchPageApiTests extends SearchPageTestBase {
