@@ -30,13 +30,14 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
             "e.g. https://www.vodafone.ua/api/search/{keyword}")
     public void testSearchResultsForValidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
+
         val response = when()
-                            .get(buildUrlWithSearchKeyword(keyword))
-                                    .then()
-                                            .statusCode(200)
-                                            .contentType(ContentType.JSON)
-                                            .body("data", notNullValue())
-                                            .body("data", hasItems())
+                             .get(buildUrlWithSearchKeyword(keyword))
+                       .then()
+                             .statusCode(200)
+                             .contentType(ContentType.JSON)
+                             .body("data", notNullValue())
+                             .body("data", hasItems())
                 .extract().response();
 
         final List<String> titles = response.path("data.title");
@@ -57,12 +58,13 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
             "e.g. 'https://www.vodafone.ua/api/search/{s}'")
     public void testSearchResultsForOneChar(final String singleChar) {
         log.info("Keyword for search is [{}]", singleChar);
+
         when()
-                .get(buildUrlWithSearchKeyword(singleChar))
-                        .then()
-                                .statusCode(200)
-                                .contentType(ContentType.JSON)
-                                .body("data", empty());
+              .get(buildUrlWithSearchKeyword(singleChar))
+        .then()
+              .statusCode(200)
+              .contentType(ContentType.JSON)
+              .body("data", empty());
     }
 
     @Test(dataProvider = "emptyStrings", dataProviderClass = SearchPageTestData.class)
@@ -70,10 +72,11 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
             "e.g. 'https://www.vodafone.ua/api/search/{}'")
     public void testSearchResultsForEmptyString(final String emptyString) {
         log.info("Keyword for search is [{}]", emptyString);
+
         when()
-                .get(buildUrlWithSearchKeyword(emptyString))
-                        .then()
-                                .statusCode(404);
+              .get(buildUrlWithSearchKeyword(emptyString))
+        .then()
+              .statusCode(404);
     }
 
     @Test(dataProvider = "invalidStrings", dataProviderClass = SearchPageTestData.class)
@@ -81,19 +84,20 @@ public class VodafoneSearchPageApiTests extends SearchPageTestBase {
             "e.g. 'https://www.vodafone.ua/api/search/{abracadabra}'")
     public void testSearchResultsForInvalidString(final String keyword) {
         log.info("Keyword for search is [{}]", keyword);
+
         when()
-                .get(buildUrlWithSearchKeyword(keyword))
-                        .then()
-                                .statusCode(200)
-                                .contentType(ContentType.JSON)
-                                .body("data", empty());
+              .get(buildUrlWithSearchKeyword(keyword))
+        .then()
+              .statusCode(200)
+              .contentType(ContentType.JSON)
+              .body("data", empty());
     }
     @Test
     @Description("Case 5. Send GET request to invalid search URL: 'https://www.vodafone.ua/api/searchh'")
     public void testSearchResultsForInvalidUrl() {
         when()
-                .get("https://www.vodafone.ua/api/searchh")
-                        .then()
-                                .statusCode(404);
+              .get("https://www.vodafone.ua/api/searchh")
+        .then()
+              .statusCode(404);
     }
 }
